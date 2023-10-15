@@ -1,0 +1,38 @@
+.appContainer {
+  margin: auto;
+  width: 80%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listContainer {
+  border: 1px solid black;
+  border-radius: 5%;
+  margin: 0 2rem 0 2rem;
+  width: 30%;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button-container {
+  display: flex;
+  flex-direction: column;
+  width: 4rem;
+  gap: 1rem;
+}
+
+.checkbox-form {
+  padding: 2rem;
+}
+
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-label {
+  padding: 0.5rem;
+}

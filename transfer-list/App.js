@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { items } from "./data";
+// import { items } from "./data";
+const items = [
+  { value: 1, isChecked: false },
+  { value: 2, isChecked: false },
+  { value: 3, isChecked: false },
+  { value: 4, isChecked: false }
+];
+
 import "./styles.css";
 
 export default function App() {
