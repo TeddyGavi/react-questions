@@ -12,43 +12,36 @@ import "./styles.css";
 export default function App() {
   const [listLeft, setListLeft] = useState(items);
   const [listRight, setListRight] = useState([]);
-  const [transfer, setTransfer] = useState([]);
 
-  const handleCheckboxSelect = (e) => {
-    const updated = items.map((item) => {
-      if (item.value === parseInt(e.target.value)) {
-        return { ...item, isChecked: e.target.checked };
-      }
-      return item;
-    });
-    setTransfer(updated);
-    console.log(transfer);
+  const handleCheckboxSelect = (list, index) => {
+    const item = list[index];
+    const value = !items[index].isChecked;
+    item.isChecked = value;
+    setListLeft((prev) => [...prev]);
+    setListRight((prev) => [...prev]);
   };
 
-  const resetListState = (list) => {
-    return list.map((item) => ({
-      ...item,
-      isChecked: false
-    }));
+  const moveListRight = (list) => {
+    const dontMoveBoxes = list.filter((item) => !item.isChecked);
+    const moveBoxes = list.filter((item) => item.isChecked);
+    setListRight((prev) => [...prev, ...moveBoxes]);
+    setListLeft(dontMoveBoxes);
+  };
+
+  const moveListLeft = (list) => {
+    const dontMoveBoxes = list.filter((item) => !item.isChecked);
+    const moveBoxes = list.filter((item) => item.isChecked);
+    setListLeft((prev) => [...prev, ...moveBoxes]);
+    setListRight(dontMoveBoxes);
   };
 
   const handleButtonClick = (e) => {
     const direction = e.target.value;
-    const moveBoxes = transfer.filter((checkbox) => checkbox.isChecked);
-    const dontMoveBoxes = transfer.filter((checkbox) => !checkbox.isChecked);
-
-    if (dontMoveBoxes.length === 0) return;
 
     if (direction === "right") {
-      setListRight(moveBoxes);
-      setListLeft(dontMoveBoxes);
-      setListRight((prev) => resetListState(prev));
-      // setTransfer([]);
+      moveListRight(listLeft);
     } else {
-      setListRight(dontMoveBoxes);
-      setListLeft(moveBoxes);
-      setListLeft((prev) => resetListState(prev));
-      // setTransfer([]);
+      moveListLeft(listRight);
     }
   };
 
@@ -69,16 +62,19 @@ export default function App() {
 }
 
 function List({ list, handleCheckboxSelect }) {
+  console.log(list);
   return (
     <div className="listContainer">
       <div className="checkbox-form">
-        {list.map((item) => {
+        {list.map((item, i) => {
           return (
             <CheckBox
               handleCheckboxSelect={handleCheckboxSelect}
-              key={item.value}
+              key={i}
               checkboxId={item.value}
+              index={i}
               list={list}
+              checked={item.isChecked}
             />
           );
         })}
@@ -87,14 +83,15 @@ function List({ list, handleCheckboxSelect }) {
   );
 }
 
-function CheckBox({ checkboxId, list, handleCheckboxSelect }) {
+function CheckBox({ checkboxId, index, checked, list, handleCheckboxSelect }) {
   return (
     <div className="checkbox-label">
       <input
         type="checkbox"
-        onChange={(e) => handleCheckboxSelect(e)}
+        onChange={() => handleCheckboxSelect(list, index)}
         id={`${checkboxId}`}
         name={`${checkboxId}`}
+        checked={checked}
       />
       <label for={checkboxId}>{checkboxId}</label>
     </div>
