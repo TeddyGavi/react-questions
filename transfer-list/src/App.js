@@ -4,7 +4,7 @@ const items = [
   { value: 1, isChecked: false },
   { value: 2, isChecked: false },
   { value: 3, isChecked: false },
-  { value: 4, isChecked: false }
+  { value: 4, isChecked: false },
 ];
 
 import "./style.css";
@@ -15,24 +15,25 @@ export default function App() {
 
   const handleCheckboxSelect = (list, index) => {
     const item = list[index];
-    const value = !items[index].isChecked;
+    const value = !item.isChecked;
     item.isChecked = value;
-    setListLeft((prev) => [...prev]);
-    setListRight((prev) => [...prev]);
+   
+    setListLeft([...listLeft]);
+    setListRight([...listRight]);
   };
 
   const moveListRight = (list) => {
     const dontMoveBoxes = list.filter((item) => !item.isChecked);
     const moveBoxes = list.filter((item) => item.isChecked);
     setListRight((prev) => [...prev, ...moveBoxes]);
-    setListLeft(dontMoveBoxes);
+    setListLeft(() => dontMoveBoxes);
   };
 
   const moveListLeft = (list) => {
     const dontMoveBoxes = list.filter((item) => !item.isChecked);
     const moveBoxes = list.filter((item) => item.isChecked);
     setListLeft((prev) => [...prev, ...moveBoxes]);
-    setListRight(dontMoveBoxes);
+    setListRight(() => dontMoveBoxes);
   };
 
   const handleButtonClick = (e) => {
@@ -44,10 +45,6 @@ export default function App() {
       moveListLeft(listRight);
     }
   };
-
-  // keep track of list of items in each box
-  // keep track of list of items checked
-  // transfer items checked when clicked
 
   return (
     <div className="appContainer">
@@ -62,22 +59,25 @@ export default function App() {
 }
 
 function List({ list, handleCheckboxSelect }) {
-  console.log(list);
   return (
     <div className="listContainer">
       <div className="checkbox-form">
-        {list.map((item, i) => {
-          return (
-            <CheckBox
-              handleCheckboxSelect={handleCheckboxSelect}
-              key={i}
-              checkboxId={item.value}
-              index={i}
-              list={list}
-              checked={item.isChecked}
-            />
-          );
-        })}
+        {list.length !== 0 ? (
+          list.map((item, i) => {
+            return (
+              <CheckBox
+                handleCheckboxSelect={handleCheckboxSelect}
+                key={i}
+                checkboxId={item.value}
+                index={i}
+                list={list}
+                checked={item.isChecked}
+              />
+            );
+          })
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
