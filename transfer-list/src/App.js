@@ -7,7 +7,7 @@ const items = [
   { value: 4, isChecked: false }
 ];
 
-import "./styles.css";
+import "./style.css";
 
 export default function App() {
   const [listLeft, setListLeft] = useState(items);
