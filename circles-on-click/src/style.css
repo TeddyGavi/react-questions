@@ -1,0 +1,15 @@
+html, body {
+  margin: 0;
+}
+
+.clickMe {
+  height: 100vh;
+}
+
+.circle {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: black;
+}
