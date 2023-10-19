@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './style.css'
 
 export default function App() {
@@ -14,7 +15,8 @@ export default function App() {
     }
   
   const handleCheckAll = () => {
-    console.log("hi")
+    const newList = checkboxes.map(box => ({...box, checked: !box.checked}))
+    setCheckboxes([...newList])
   }
 
   return (
