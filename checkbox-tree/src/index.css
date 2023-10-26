@@ -24,6 +24,14 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-
 }
 
+.checked-tree-container > * {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.nested-child > * {
+  margin-left: 10px;
+}
