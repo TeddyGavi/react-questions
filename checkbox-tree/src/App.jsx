@@ -8,10 +8,30 @@ const Main = () => {
   const [formData, setFormData] = useState({ checkedTree: [] });
   const [initData, setInitData] = useState([]);
 
-  
+
   useEffect(() => {
     setInitData(buildTree(data));
   }, []);
+
+
+  const toggleChecked = (id, parentId) => {
+    const newData = [...initData]
+    for (const rootParent of newData ) {
+      if (rootParent.id === parentId) {
+        const toggleAllChildren = (node) => {
+          console.log(node)
+          if (node.children.length === 0) return;
+          node.isChecked = !node.isChecked;
+          node.children.forEach((child) => toggleAllChildren(child));
+        };
+
+        return toggleAllChildren(rootParent);
+      }
+    break;
+    }
+  setInitData(() => newData)
+  };
+
 
   const handleSubmit = () => {
     console.log(formData);
@@ -22,7 +42,7 @@ const Main = () => {
       <h1>Mock Form</h1>
       <input placeholder="Mock Input" className="common" />
       <input placeholder="Mock Input" className="common" />
-      <CheckedTree initData={initData} />
+      <CheckedTree initData={initData} toggleChecked={toggleChecked}/>
       <button onClick={handleSubmit} className="common">
         Submit
       </button>

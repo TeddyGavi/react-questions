@@ -1,13 +1,7 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-export default function CheckedTree({ initData }) {
-  const [checked, setChecked] = useState(false);
-
-  const toggleChecked = (id) => {
-    console.log(id)
-    setChecked(prev => !prev)
-  }
-
+export default function CheckedTree({ initData, toggleChecked }) {
   return (
     <div className="checked-tree-container">
       {initData.map((item) => {
@@ -15,7 +9,7 @@ export default function CheckedTree({ initData }) {
           <ItemInCheckbox
             key={item.id}
             singleChild={item}
-            checked={checked}
+            isChecked={item.isChecked}
             toggleChecked={toggleChecked}
           />
         );
@@ -25,7 +19,8 @@ export default function CheckedTree({ initData }) {
 }
 
 const ItemInCheckbox = ({
-  singleChild: {  name,  isChecked, children }, checked, toggleChecked
+  singleChild: { id, parentId, name, isChecked, children },
+  toggleChecked,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -36,8 +31,8 @@ const ItemInCheckbox = ({
         <input
           type="checkbox"
           name={name}
-          checked={checked}
-          onChange={() => toggleChecked()}
+          checked={isChecked}
+          onChange={() => toggleChecked(id, parentId)}
         ></input>
         <label htmlFor={name}>&nbsp;{name}</label>
       </div>
@@ -47,23 +42,28 @@ const ItemInCheckbox = ({
             className={`nested-child ${child.name.toLowerCase()}`}
             key={child.id}
           >
-            <ItemInCheckbox thisClass="nested" singleChild={child} toggleChecked={toggleChecked} />
+            <ItemInCheckbox
+              singleChild={child}
+              isChecked={child.isChecked}
+              toggleChecked={toggleChecked}
+            />
           </div>
         ))}
     </div>
   );
 };
-
 CheckedTree.propTypes = {
-  initData: [],
+  initData: PropTypes.array.isRequired,
+  toggleChecked: PropTypes.func,
 };
 
 ItemInCheckbox.propTypes = {
-  singleChild: {
-    id: Number,
-    name: String,
-    parentId: Number,
-    isChecked: Boolean,
-    children: Array,
-  },
+  singleChild: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    parentId: PropTypes.number,
+    isChecked: PropTypes.bool.isRequired,
+    children: PropTypes.array,
+  }).isRequired,
+  toggleChecked: PropTypes.func.isRequired,
 };
