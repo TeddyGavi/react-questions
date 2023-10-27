@@ -15,14 +15,17 @@ const Main = () => {
     const newData = [...initData];
     for (const rootParent of newData) {
       const toggleAllChildren = (node) => {
-        console.log(node);
+        console.log(node.id);
         if (node.children.length === 0 || node.id === id) return;
-        node.isChecked = !node.isChecked;
-        node.children.forEach((child) => toggleAllChildren(child));
+        if (node.id === id) {
+
+          node.isChecked = !node.isChecked;
+          node.children.forEach((child) => toggleAllChildren(child));
+        }
       };
 
       if (rootParent.id === parentId) {
-        toggleAllChildren(rootParent);
+       return toggleAllChildren(rootParent);
       } else  { 
         toggleAllChildren(rootParent)
       }
