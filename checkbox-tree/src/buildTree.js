@@ -1,3 +1,5 @@
+import data from './data'
+
 const buildTree = (response) => {
   const tree = [];
   const parent = {};
@@ -18,4 +20,7 @@ const buildTree = (response) => {
 
   return tree;
 };
-export default buildTree;
+
+const treeData = buildTree(data)
+
+export default treeData;

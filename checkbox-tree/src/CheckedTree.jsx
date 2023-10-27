@@ -18,32 +18,27 @@ export default function CheckedTree({ initData, toggleChecked }) {
   );
 }
 
-const ItemInCheckbox = ({
-  singleChild: { id, parentId, name, isChecked, children },
-  toggleChecked,
-}) => {
+const ItemInCheckbox = ({ singleChild, toggleChecked }) => {
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(isChecked);
 
   return (
-    <div className={`checkbox-row-${name.toLowerCase()}`}>
+    <div className={`checkbox-row-${singleChild.name.toLowerCase()}`}>
       <div style={{ display: "flex" }}>
         <div className="toggle-arrow" onClick={() => setOpen((prev) => !prev)}>
           {open ? "V" : ">"}
         </div>
         <input
           type="checkbox"
-          name={name}
-          checked={checked}
+          name={singleChild.name}
+          checked={singleChild.isChecked}
           onChange={() => {
-            toggleChecked(id, parentId);
-            setChecked((prev) => !prev);
+            toggleChecked(singleChild);
           }}
         ></input>
-        <label htmlFor={name}>&nbsp;{name}</label>
+        <label htmlFor={singleChild.name}>&nbsp;{singleChild.name}</label>
       </div>
       {open &&
-        children.map((child) => (
+        singleChild.children.map((child) => (
           <div
             className={`nested-child ${child.name.toLowerCase()}`}
             key={child.id}

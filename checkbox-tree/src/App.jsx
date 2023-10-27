@@ -1,37 +1,21 @@
 import "./App.css";
-import data from "./data";
 import { useState } from "react";
-import buildTree from "./buildTree";
+import treeData from "./buildTree";
 import CheckedTree from "./CheckedTree";
-
-const treeData = buildTree(data);
+import { findRootParent, toggleChildren } from "./helpers";
 
 const Main = () => {
   const [formData, setFormData] = useState({ checkedTree: [] });
   const [initData, setInitData] = useState(treeData);
 
-  const toggleChecked = (id, parentId) => {
-    console.log(parentId);
-    const newData = [...initData];
-    for (const rootParent of newData) {
-      const toggleAllChildren = (node) => {
-        console.log(node.id);
-        if (node.children.length === 0 || node.id === id) return;
-        if (node.id === id) {
+  const toggleChecked = (singleChild) => {
+    const newTree =[...initData] 
+    const rootParent = findRootParent(singleChild, newTree);
 
-          node.isChecked = !node.isChecked;
-          node.children.forEach((child) => toggleAllChildren(child));
-        }
-      };
-
-      if (rootParent.id === parentId) {
-       return toggleAllChildren(rootParent);
-      } else  { 
-        toggleAllChildren(rootParent)
-      }
-    }
-    setInitData([...newData]);
+    toggleChildren(newTree, singleChild.id);
+    setInitData(newTree);
   };
+  
 
   const handleSubmit = () => {
     console.log(formData);
