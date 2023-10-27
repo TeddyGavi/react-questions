@@ -23,16 +23,22 @@ const ItemInCheckbox = ({
   toggleChecked,
 }) => {
   const [open, setOpen] = useState(false);
+  const [checked, setChecked] = useState(isChecked);
 
   return (
     <div className={`checkbox-row-${name.toLowerCase()}`}>
       <div style={{ display: "flex" }}>
-        <div onClick={() => setOpen((prev) => !prev)}>{open ? "V" : ">"}</div>
+        <div className="toggle-arrow" onClick={() => setOpen((prev) => !prev)}>
+          {open ? "V" : ">"}
+        </div>
         <input
           type="checkbox"
           name={name}
-          checked={isChecked}
-          onChange={() => toggleChecked(id, parentId)}
+          checked={checked}
+          onChange={() => {
+            toggleChecked(id, parentId);
+            setChecked((prev) => !prev);
+          }}
         ></input>
         <label htmlFor={name}>&nbsp;{name}</label>
       </div>
@@ -65,5 +71,5 @@ ItemInCheckbox.propTypes = {
     isChecked: PropTypes.bool.isRequired,
     children: PropTypes.array,
   }).isRequired,
-  toggleChecked: PropTypes.func.isRequired,
+  toggleChecked: PropTypes.func,
 };

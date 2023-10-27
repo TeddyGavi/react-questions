@@ -18,6 +18,10 @@
   padding: 10px;
 }
 
+.toggle-arrow {
+  cursor: pointer;
+}
+
 .checked-tree-container {
   border: 1px solid black;
   padding: 1rem;
