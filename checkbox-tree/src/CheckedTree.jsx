@@ -25,7 +25,7 @@ const ItemInCheckbox = ({ singleChild, toggleChecked }) => {
     <div className={`checkbox-row-${singleChild.name.toLowerCase()}`}>
       <div style={{ display: "flex" }}>
         <div className="toggle-arrow" onClick={() => setOpen((prev) => !prev)}>
-          {open ? "V" : ">"}
+          {singleChild.children.length > 0 ? (open ? "V" : '>') : "--"}
         </div>
         <input
           type="checkbox"

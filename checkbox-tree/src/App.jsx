@@ -1,8 +1,7 @@
 import "./App.css";
 import { useState } from "react";
-import treeData from "./buildTree";
 import CheckedTree from "./CheckedTree";
-import { findRootParent, toggleChildren } from "./helpers";
+import { findRootParent, toggleParents, treeData } from "./helpers";
 
 const Main = () => {
   const [formData, setFormData] = useState({ checkedTree: [] });
@@ -11,8 +10,7 @@ const Main = () => {
   const toggleChecked = (singleChild) => {
     const newTree =[...initData] 
     const rootParent = findRootParent(singleChild, newTree);
-
-    toggleChildren(newTree, singleChild.id);
+    toggleParents(newTree, singleChild.id);
     setInitData(newTree);
   };
   
