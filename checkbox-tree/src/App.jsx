@@ -1,10 +1,9 @@
 import "./App.css";
 import { useState } from "react";
 import CheckedTree from "./CheckedTree";
-import { findRootParent, toggleParents, treeData, filterTree } from "./helpers";
+import { toggleParents, treeData, filterTree } from "./helpers";
 
 const Main = () => {
-  const [formData, setFormData] = useState({ checkedTree: [] });
   const [initData, setInitData] = useState(treeData);
 
   const toggleChecked = (singleChild) => {
@@ -13,14 +12,10 @@ const Main = () => {
     setInitData(newTree);
   };
 
-  const handleSubmit = () => {
-    console.log(formData);
-  };
 
   const filter = (e) => {
     const searchString = e.target.value;
-    const tree = filterTree(searchString, initData);
-    console.log(tree)
+    const tree = filterTree(searchString, treeData);
     setInitData(tree);
   };
 
@@ -29,7 +24,7 @@ const Main = () => {
       <h1>Mock Form</h1>
       <input onChange={filter} placeholder="Search..." className="common" />
       <CheckedTree initData={initData} toggleChecked={toggleChecked} />
-      <button onClick={handleSubmit} className="common">
+      <button onClick={null} className="common">
         Submit
       </button>
     </div>

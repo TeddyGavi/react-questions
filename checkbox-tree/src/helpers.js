@@ -1,7 +1,6 @@
 import data from "./data";
 
 const buildTree = (response) => {
-  console.log(response)
   const tree = [];
   const parent = {};
 
@@ -12,7 +11,7 @@ const buildTree = (response) => {
   }
 
   for (let i = 0; i < response.length; i++) {
-    if (response[i].parentId) {
+    if (response[i].parentId !== null) {
         parent[response[i].parentId].children.push(response[i]);
     } else {
       tree.push(response[i]);
@@ -73,32 +72,15 @@ export const toggleParents = (tree, targetId) => {
   return false;
 };
 
-export const filterTree = (str) => {
+export const filterTree = (str, tree) => {
   const sanitized = str.toLowerCase().trim();
 
-  const newData = data.filter(
-    (item) => item.name.toLowerCase().trim() !== sanitized
-  );
-  if (newData.length > 0) return buildTree(newData);
-  else return buildTree(data);
+  return tree.filter ((item) => {
+    const found = item.name.toLowerCase().trim().includes(sanitized)
+    if (found) return item
 
-  // const traverse = (node) => {
-  //   if (node.name.toLowerCase().trim() === sanitized) return node;
-  //   if (node.children.length === 0) return;
-  //   else
-  //     for (const child of node.children) {
-  //       const result = traverse(child);
-  //       if (result) return result;
-  //     }
-  //   return null;
-  // };
-
-  // for (let item of tree) {
-  //   const result = traverse(item);
-  //   if (result) {
-  //     const rootParent = findRootParent(result, tree);
-  //   }
-  //   if (result) return result;
-  // }
-  // return null;
+    if (item.children.length > 0) {
+      return filterTree(sanitized, item.children).length > 0
+    }
+  })
 };
