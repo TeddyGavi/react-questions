@@ -1,6 +1,7 @@
 import data from "./data";
 
 const buildTree = (response) => {
+  console.log(response)
   const tree = [];
   const parent = {};
 
@@ -12,7 +13,7 @@ const buildTree = (response) => {
 
   for (let i = 0; i < response.length; i++) {
     if (response[i].parentId) {
-      parent[response[i].parentId].children.push(response[i]);
+        parent[response[i].parentId].children.push(response[i]);
     } else {
       tree.push(response[i]);
     }
@@ -46,19 +47,18 @@ export const findRootParent = (childNode, tree) => {
   return parent;
 };
 
-export const toggleParents = (data, targetId) => {
-  console.log(targetId)
+export const toggleParents = (tree, targetId) => {
   const toggleChildren = (node) => {
-    if (!node.children) return;
+    if (!node.parentId) return;
     node.isChecked = false;
     node.children.forEach(toggleChildren);
   };
 
-  for (const item of data) {
+  for (const item of tree) {
     if (item.id === targetId) {
       item.isChecked = !item.isChecked;
       if (item.children.length > 0) {
-        toggleChildren(item);
+        item.children.forEach(toggleChildren);
       }
       return true;
     }
@@ -71,4 +71,34 @@ export const toggleParents = (data, targetId) => {
     }
   }
   return false;
+};
+
+export const filterTree = (str) => {
+  const sanitized = str.toLowerCase().trim();
+
+  const newData = data.filter(
+    (item) => item.name.toLowerCase().trim() !== sanitized
+  );
+  if (newData.length > 0) return buildTree(newData);
+  else return buildTree(data);
+
+  // const traverse = (node) => {
+  //   if (node.name.toLowerCase().trim() === sanitized) return node;
+  //   if (node.children.length === 0) return;
+  //   else
+  //     for (const child of node.children) {
+  //       const result = traverse(child);
+  //       if (result) return result;
+  //     }
+  //   return null;
+  // };
+
+  // for (let item of tree) {
+  //   const result = traverse(item);
+  //   if (result) {
+  //     const rootParent = findRootParent(result, tree);
+  //   }
+  //   if (result) return result;
+  // }
+  // return null;
 };
